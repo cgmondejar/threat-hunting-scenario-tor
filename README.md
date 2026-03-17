@@ -5,17 +5,17 @@
 # Threat Hunt Report: Unauthorized TOR Usage
 - [Scenario Creation](https://github.com/cgmondejar/threat-hunting-scenario-tor/blob/main/threat-hunting-scenario-tor-event-creation.md)
 
-## Platforms and Languages Leveraged
+# Platforms and Languages Leveraged
 - Windows 11 Virtual Machines (Microsoft Azure)
 - EDR Platform: Microsoft Defender for Endpoint
 - Kusto Query Language (KQL)
 - Tor Browser
 
-##  Scenario
+#  Scenario
 
 Management suspects that some employees may be using TOR browsers to bypass network security controls because recent network logs show unusual encrypted traffic patterns and connections to known TOR entry nodes. Additionally, there have been anonymous reports of employees discussing ways to access restricted sites during work hours. The goal is to detect any TOR usage and analyze related security incidents to mitigate potential risks. If any use of TOR is found, notify management.
 
-### High-Level TOR-Related IoC Discovery Plan
+# High-Level TOR-Related IoC Discovery Plan
 
 - **Check `DeviceFileEvents`** for any `tor(.exe)` or `firefox(.exe)` file events.
 - **Check `DeviceProcessEvents`** for any signs of installation or usage.
@@ -23,7 +23,7 @@ Management suspects that some employees may be using TOR browsers to bypass netw
 
 ---
 
-## Steps Taken
+# Steps Taken
 
 ### 1. Searched the `DeviceFileEvents` Table
 
@@ -255,24 +255,12 @@ DeviceNetworkEvents
 ---
 
 # Summary
-The timeline indicates the following sequence of actions:
-
-1. Tor Browser installer downloaded to the **Downloads** directory.
-2. Installer executed silently with the `/S` switch.
-3. Tor Browser extracted to the **Desktop**.
-4. Tor client initialized and established connections to multiple **Tor relays and directory authorities**.
-5. User created and later moved a file named **tor-shopping-list.txt**, suggesting possible user interaction with Tor during the session.
-
----
----
-
-## Summary
 
 Between 07:30:24 and 07:43:10 on 16 March 2026, cgm-admin downloaded the official Tor Browser portable installer (v15.0.7), ran it silently (/S), which extracted the full package (tor.exe, profile files, licenses) to the Desktop. Tor.exe immediately launched and established multiple outbound Tor network connections on ports 9001 and 443. A “tor-shopping-list.txt” file was then created in Documents and moved to the Desktop. All activity was limited to this single account and directly related to Tor Browser download, installation, launch, and network use.
 
 ---
 
-## Response Taken
+# Response Taken
 
 TOR usage was confirmed on the endpoint `cgm-admin` by the user `cgm-threat-hunt`. The device was isolated, and the user's direct manager was notified.
 
